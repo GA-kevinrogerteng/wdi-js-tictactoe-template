@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="TacApp">
   <head>
     <title>TIC TAC TOE</title>
-    <link rel="stylesheet" type="text/css" href="css/reset.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+      <link rel="stylesheet" type="text/css" href="css/reset.min.css">
+      <link rel="stylesheet" type="text/css" href="css/style.css">
   </head>
-  <body>
-
-     <div id="game">
-       <ul id="teams">
-        <li>
-          <img src="">
+  <body ng-controller="TicTacToeCtrl">
+    <div id="game">
+      <ul id="teams">
+        <li ng-class="{current: current_player == players[0]}">
+          <img src={{players[0].img_url}}>
           <h2>Team <span class="team"></span></h2>
-          <h3 class="player"></h3>
+          <h3 class="player">{{players[0].name}}</h3>
         </li>
-        <li>
-          <img src="">
+        <li ng-class="{current: current_player == players[1]}">
+          <img src={{players[1].img_url}}>
           <h2>Team <span class="team"></span></h2>
-          <h3 class="player"></h3>
+          <h3 class="player">{{players[1].name}}</h3>
         </li>
       </ul>
       <div id="board">
+          <div ng-repeat="tile in tiles">
+              <div id="tile{{tile.tileNumber}}" class="tile combo" ng-click="handle_click($index)">{{tile.tileValue}}</div>
+          <div>
       </div>
-      <div id="results">
-        <h1></h1>
-        <span class="image"></span>
-        <button>play again</button>
+       <!--  <div id="results">
+          <h1></h1>
+          <span class="image"></span>
+          <button>play again</button>
+        </div> -->
       </div>
-    </div>
-
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-  <script src="js/underscore.min.js"></script>
-  <script src="js/tictactoe.js"></script>
-  </body>
-</html>
-
-
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+      <script src="js/underscore.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+      <script src="js/tactoe.js"></script>
+    </body>
+  </html>
