@@ -46,6 +46,11 @@ img {
 }
 .tile.combo {
   color:#b80000;
+  -webkit-transition: color 0.3s ease-in;
+}
+.tile.tie {
+  color:#ff8f32;
+  -webkit-transition: color 0.3s ease-in;
 }
 #tile0,
 #tile1,
@@ -120,7 +125,7 @@ img {
   background:rgba(0,0,0,0.5);
   z-index:-1;
 }
-#results {
+#results{
   position:fixed;
   z-index:2;
   top:50%;
@@ -136,7 +141,11 @@ img {
   -webkit-border-radius:11px;
   border-radius:11px;
   font-size:16px;
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+  opacity: 1;
 }
+
 #results h1,
 #results span {
   font-weight:bold;

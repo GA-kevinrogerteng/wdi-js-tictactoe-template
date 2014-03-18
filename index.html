@@ -5,6 +5,8 @@
       <link rel="stylesheet" type="text/css" href="css/reset.min.css">
       <link rel="stylesheet" type="text/css" href="css/style.css">
   </head>
+
+
   <body ng-controller="TicTacToeCtrl">
     <div id="game">
       <ul id="teams">
@@ -19,20 +21,34 @@
           <h3 class="player">{{players[1].name}}</h3>
         </li>
       </ul>
+
       <div id="board">
           <div ng-repeat="tile in tiles">
-              <div id="tile{{tile.tileNumber}}" class="tile combo" ng-click="handle_click($index)">{{tile.tileValue}}</div>
+              <div id="tile{{tile.tileNumber}}" ng-class="{tile: start, combo: tile.tileWin, tie: isTie}" ng-click="handle_click($index)">{{tile.tileValue}}</div>
           <div>
       </div>
-       <!--  <div id="results">
-          <h1></h1>
-          <span class="image"></span>
-          <button>play again</button>
-        </div> -->
+        <!-- for an actual winner -->
+        <span ng-show="isResults"><div id="results">
+          <h1>Congratulations {{current_player.name}}!</h1>
+          <span class="image"><img src={{current_player.img_url}} /></span>
+          <a href="/index.html"><button>play again</button></a>
+        </div></span>
+
+        <!-- for a tie -->
+        <span ng-show="isTieResult"><div id="results">
+          <h1>It's a Tie!!!</h1>
+          <span class="image"><img src="http://i.imgur.com/vI23B2j.gif" /></span>
+          <a href="/index.html"><button>play again</button></a>
+        </div></span>
+
+
       </div>
+
       <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-      <script src="js/underscore.min.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+      <script src="js/angular.min.js"></script>
+      <script src="js/angular-animate.min.js"></script>
+      <script src="http://sugarjs.com/release/current/sugar.min.js"></script>
       <script src="js/tactoe.js"></script>
+
     </body>
   </html>

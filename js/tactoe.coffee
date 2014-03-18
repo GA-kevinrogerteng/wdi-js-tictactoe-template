@@ -1,25 +1,24 @@
-TacApp = angular.module "TacApp", []
+TacApp = angular.module("TacApp", [
+  # "TacRouter", 
+  "TacAppCtrl"
+])
 
+TacAppCtrl = angular.module("TacAppCtrl", [])
 
-TacApp.controller("TicTacToeCtrl", ["$scope", 
-  ($scope)->
-    status_indicators = $("#teams li")
-    
+TacAppCtrl.controller("TicTacToeCtrl", ["$scope", "$interval",
+  ($scope, $interval)->
+    $scope.isWinner = ""
     $scope.players = [
-      {
        name:'Ernie' 
        marker:'X'
        img_url:'img/ernie.jpg'
-       indicator: $(status_indicators[0])
-      }
+       list: []
       ,
-      {
        name:'Bert' 
        marker: 'O'
        img_url: 'img/bert.jpg'
-       indicator: $(status_indicators[1])
-      }
-      ] 
+       list: []
+      ]
     $scope.current_player = $scope.players[0]
     $scope.turns = 0
     $scope.win_combos = [
@@ -33,25 +32,50 @@ TacApp.controller("TicTacToeCtrl", ["$scope",
       newTile = 
         {
         tileNumber: i
-        tileStatus: false
+        tileWin: false
         tileValue: ""
         }
       $scope.tiles.push newTile
+      $scope.start = true
       i++
 
     $scope.handle_click = (tile)->
       if $scope.tiles[tile].tileStatus isnt true
         $scope.tiles[tile].tileValue = $scope.current_player.marker
         $scope.tiles[tile].tileStatus = true
-        # this can be better, use turn and indicator
-        if $scope.current_player == $scope.players[0]
-          $scope.current_player = $scope.players[1]
-        else if $scope.current_player == $scope.players[1]
-          $scope.current_player = $scope.players[0]
+        $scope.current_player.list.push($scope.tiles[tile].tileNumber)
+        $scope.turns += 1
+        if $scope.turns isnt 9
+          if $scope.checkWin($scope.current_player) isnt true
+            if $scope.turns % 2 == 0
+              $scope.current_player = $scope.players[0]
+            else
+              $scope.current_player = $scope.players[1]
+            return
+        else 
+          $scope.current_player = []
+          $scope.isTie = true
+          $interval (->
+            $scope.isTieResult = true
+            return
+            ), 1500
+          return
+
+    $scope.checkWin = (current_player)->
+      for k of $scope.win_combos
+        matchWin = current_player.list.intersect($scope.win_combos[k])
+        if matchWin.length is 3
+          matchWin.forEach (index) ->
+            $scope.tiles[index].tileWin = true
+            $scope.current_player.marker = ""
+            $scope.turns = ""
+            return
+          $interval (->
+              $scope.isResults = true
+              return
+              ), 1500
+          return true
+
     return
-
-    $scope.checkWin = ()->
-    $scope.winning = true
-
 
 ])
